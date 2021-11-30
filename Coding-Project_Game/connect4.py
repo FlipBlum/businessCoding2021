@@ -3,7 +3,7 @@ class Connect4:
     def __init__(self):
         self.numberOfColumns = 7
         self.numberOfLines = 6
-        self.board = [ [ '  ' for _ in range( self.numberOfColumns)] for _ in range(self.numberOfLines) ]
+        self.board = [['  ' for _ in range(self.numberOfColumns)] for _ in range(self.numberOfLines)]
 
     def displayBoard(self):
         for i, line in enumerate(self.board):
@@ -14,57 +14,65 @@ class Connect4:
             # Printing numbers
         print('    '.join(str(x) for x in range(self.numberOfColumns)))
 
+#check if the spot is available for your marker
     def isAvailable(self, line, column):
         if line[column] == '  ':
             return True
         return False
 
+#choose your spot
     def player_choice(self):
         choice = int(input("Please select an empty space between 0 and 6 : "))
         while self.board[0][choice] != '  ':
             choice = int(input("This column is full. Please choose between 0 and 6 : "))
         return choice
 
+#choose your marker
     def player_input(self):
         player1 = input("Please pick a marker 'X' or 'O' ")
         while True:
             if player1.upper() == 'X':
-                player2='O'
+                player2 = 'O'
                 print("You've choosen " + player1 + ". Player 2 will be " + player2)
-                return player1.upper(),player2
+                return player1.upper(), player2
             elif player1.upper() == 'O':
-                player2='X'
+                player2 = 'X'
                 print("You've choosen " + player1 + ". Player 2 will be " + player2)
-                return player1.upper(),player2
+                return player1.upper(), player2
             else:
                 player1 = input("Please pick a marker 'X' or 'O' ")
 
+#check if you have four of the same type in a line
     def checkLines(self, marker, board=None):
         if board is None:
-            board=self.board
+            board = self.board
         # Checkin lines
         for line in board:
-            for i in range(0,len(line)):
+            for i in range(0, len(line)):
                 if i < len(line) - 3:
-                    if line[i] == line[i+1] == line[i+2] == line[i+3] == " " + marker:
+                    if line[i] == line[i + 1] == line[i + 2] == line[i + 3] == " " + marker:
                         return True
 
+#check if you have 4 of the same type in a diag
     def checkDiags(self, marker):
         diagBoard = []
         for i, line in enumerate(self.board):
             for idx, item in enumerate(line):
-                # Find of there is some marker
+                # Find if there is some marker
                 if item == ' ' + marker:
-                    diagBoard.append(int(str(i)+str(idx)))
+                    diagBoard.append(int(str(i) + str(idx)))
 
+#check if your markers are for left to right
         for item in diagBoard:
             if int(item) + 11 in diagBoard and int(item) + 22 in diagBoard and int(item) + 33 in diagBoard:
                 return True
 
+#check if your markers are from right to left
         for item in reversed(diagBoard):
             if int(item) - 9 in diagBoard and int(item) - 18 in diagBoard and int(item) - 27 in diagBoard:
                 return True
 
+#to be able to check if markers are from left to right, create a reversedBoard
     def generateReversedBoard(self):
         reversedBoard = []
         for line in self.board:
@@ -83,9 +91,10 @@ class Connect4:
                 return True
         return False
 
+
 c = Connect4()
 
-# First while lopp init
+# First while loop
 game = True
 while game:
     # Choose your marker
