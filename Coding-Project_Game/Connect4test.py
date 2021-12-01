@@ -94,7 +94,7 @@ class Connect4:
     game = True
     while game:
       # Choose your marker
-      players = c.player_input()
+      players = c.playerInput()
       # Display the board
       c.displayBoard()
       # Second while loop init
@@ -109,7 +109,7 @@ class Connect4:
           currentPlayer = "Player2"
           marker = players[0]
         # Player to choose where to put the mark
-        position = c.player_choice()
+        position = c.playerChoice()
         if not c.play(position, marker):
             print(f"Column {position} full")
             # Generate the reversed board

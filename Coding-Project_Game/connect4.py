@@ -12,7 +12,7 @@ class Connect4:
             # Printing the line
             print(*line, sep=' |')
             # Printing numbers
-        print('    '.join(str(x) for x in range(self.numberOfColumns)))
+        print('   '.join(str(x) for x in range(self.numberOfColumns)))
 
 #check if the spot is available for your marker
     def isAvailable(self, line, column):
@@ -21,15 +21,15 @@ class Connect4:
         return False
 
 #choose your spot
-    def player_choice(self):
+    def playerChoice(self):
         choice = int(input("Please select an empty space between 0 and 6 : "))
         while self.board[0][choice] != '  ':
             choice = int(input("This column is full. Please choose between 0 and 6 : "))
         return choice
 
 #choose your marker
-    def player_input(self):
-        player1 = input("Please pick a marker 'X' or 'O' ")
+    def playerInput(self):
+        player1 = input("Please pick a marker 'X' or 'O': ")
         while True:
             if player1.upper() == 'X':
                 player2 = 'O'
@@ -46,14 +46,15 @@ class Connect4:
     def checkLines(self, marker, board=None):
         if board is None:
             board = self.board
-        # Checkin lines
+        # Check in lines
         for line in board:
             for i in range(0, len(line)):
                 if i < len(line) - 3:
+                    #check if i a line contains spaces and a marker * 4
                     if line[i] == line[i + 1] == line[i + 2] == line[i + 3] == " " + marker:
                         return True
 
-#check if you have 4 of the same type in a diag
+#check if you have 4 of the same marker in a diagonal
     def checkDiags(self, marker):
         diagBoard = []
         for i, line in enumerate(self.board):
@@ -72,7 +73,7 @@ class Connect4:
             if int(item) - 9 in diagBoard and int(item) - 18 in diagBoard and int(item) - 27 in diagBoard:
                 return True
 
-#to be able to check if markers are from left to right, create a reversedBoard
+#transform columns into lines, that way the linecheck can be used here
     def generateReversedBoard(self):
         reversedBoard = []
         for line in self.board:
@@ -98,7 +99,7 @@ c = Connect4()
 game = True
 while game:
     # Choose your marker
-    players = c.player_input()
+    players = c.playerInput()
     # Display the board
     c.displayBoard()
     # Second while loop init
@@ -113,8 +114,9 @@ while game:
             currentPlayer = "Player2"
             marker = players[0]
         # Player to choose where to put the mark
-        position = c.player_choice()
+        position = c.playerChoice()
         if not c.play(position, marker):
+            #f-strings provide a better overview
             print(f"Column {position} full")
 
         # Generate the reversed board
